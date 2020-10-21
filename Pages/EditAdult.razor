@@ -1,0 +1,67 @@
+﻿﻿@using Managing_Adults.Models
+@using Managing_Adults.Data
+@using global::Models
+@using Managing_Adults.Data.Impl
+@inject IAdultService AdultService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@page "/EditAdult/{value}"
+<EditForm Model="@adultItem" OnValidSubmit="@editAdult">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+        <div >Change if needed verification information:</div>  
+        <div> &nbsp;</div>
+        <div class="row">
+            <p class="space-left">Id :<br/> @adultItem.Id  </p>
+            <p class="space">FirstName :<br/> <InputTextArea rows="1" @bind-Value="adultItem.FirstName"/> </p>
+            <p class="space">LastName :<br/> <InputTextArea rows="1" @bind-Value="adultItem.LastName"/> </p>
+        </div>
+        <div> &nbsp;</div>
+        <div >Change if needed adult specification information:</div>
+        <div> &nbsp;</div>
+        <div class="row">
+            <p class="space-left">HairColor :<br/> <InputTextArea rows="1" @bind-Value="adultItem.HairColor"/> </p>
+            <p class="space">EyeColor :<br/> <InputTextArea rows="1" @bind-Value="adultItem.EyeColor"/> </p>
+            <p class="space">Age :<br/> <InputNumber @bind-Value="adultItem.Age"/> </p>
+            <p class="space">Weight :<br/> <InputNumber rows="1" @bind-Value="adultItem.Weight"/> </p>
+            <p class="space">Height :<br/> <InputNumber @bind-Value="adultItem.Height"/> </p>
+            <p class="space">Select Gender<br/> <InputSelect @bind-Value="adultItem.Sex">
+                    <option value="">Select sex ...</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                </InputSelect>
+           
+            </p>
+        </div>
+    
+        <div> &nbsp;</div>
+        <div >Change if needed adult job information:</div>
+        <div> &nbsp;</div>
+        <div class="form-group">Adult job :<br/> <InputTextArea rows="1" @bind-Value="adultItem.JobTitle"/> </div>
+    
+        <p class="actions">
+            <button class="btn btn-outline-dark" type="submit">Change</button>
+        </p>
+    </EditForm>
+
+@code {
+    
+    public Adult adultItem;
+    protected override void OnParametersSet()
+    {
+        var stringId = value;
+        int Id = int.Parse(stringId);
+         adultItem = AdultService.getAdultById(Id);
+    }
+    
+    private void editAdult()
+    {
+        AdultService.Update(adultItem);
+        NavigationManager.NavigateTo("/Adults");
+    }
+    [Parameter]
+     public  string value { get; set; }
+     
+    
+}

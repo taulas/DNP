@@ -1,0 +1,22 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@page "/"
+<AuthorizeView>
+    <NotAuthorized>
+        <div>
+            <h1>Hello, Guest!</h1>
+            <h1>Please login to get extra functions</h1>
+        </div>
+        
+    </NotAuthorized>
+    <Authorized>
+        <div>
+                           <h1>Hello, @context.User.Identity.Name !</h1>
+                           <h1>You got extra functionality</h1>
+                       </div>
+    </Authorized>
+    
+</AuthorizeView>
+
+
+
